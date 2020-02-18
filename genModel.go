@@ -2,6 +2,7 @@ package rpc_gen
 
 import (
 	"fmt"
+	"os"
 	"reflect"
 
 	"github.com/tianhai82/typescriptify-golang-structs/typescriptify"
@@ -53,6 +54,10 @@ func genModel(config *GenConfig) error {
 	scriptify := typescriptify.New()
 	for key := range clsMap {
 		scriptify.Add(key)
+	}
+	err := os.MkdirAll(config.Folder, 0700)
+	if err != nil {
+		return err
 	}
 	return scriptify.ConvertToFile(fmt.Sprintf("%s/models.ts", config.Folder))
 }
