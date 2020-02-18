@@ -7,7 +7,7 @@ import (
 	"github.com/tianhai82/typescriptify-golang-structs/typescriptify"
 )
 
-func genModel(config *GenConfig) {
+func genModel(config *GenConfig) error {
 	clsMap := map[interface{}]bool{}
 	for i, service := range config.Services {
 		if service.Input != nil {
@@ -54,5 +54,5 @@ func genModel(config *GenConfig) {
 	for key := range clsMap {
 		scriptify.Add(key)
 	}
-	scriptify.ConvertToFile(fmt.Sprintf("%s/models.ts", config.Folder))
+	return scriptify.ConvertToFile(fmt.Sprintf("%s/models.ts", config.Folder))
 }

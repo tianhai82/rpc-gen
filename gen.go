@@ -29,15 +29,18 @@ type Param struct {
 
 func CreateTsServiceClients(configs []GenConfig) {
 	for _, genConfig := range configs {
-		err := createTsServiceClients(genConfig)
+		err := createTsServiceClient(genConfig)
 		if err != nil {
-			fmt.Println(err)
+			fmt.Printf("Error creating ts client for %s: %s", genConfig.Folder, err.Error())
 		}
 	}
 }
 
-func createTsServiceClients(genConfig GenConfig) error {
-	genModel(&genConfig)
+func createTsServiceClient(genConfig GenConfig) error {
+	err := genModel(&genConfig)
+	if err != nil {
+		return err
+	}
 	importString, err := genImport(genConfig)
 	if err != nil {
 		return err
