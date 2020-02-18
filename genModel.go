@@ -52,6 +52,7 @@ func genModel(config *GenConfig) error {
 	}
 
 	scriptify := typescriptify.New()
+	scriptify.BackupDir = ""
 	for key := range clsMap {
 		scriptify.Add(key)
 	}

@@ -15,6 +15,7 @@ func genImport(genConfig GenConfig) (string, error) {
 			case int:
 			case int64:
 			case float64:
+			case float32:
 			case bool:
 			case string:
 				continue
@@ -30,11 +31,12 @@ func genImport(genConfig GenConfig) (string, error) {
 			case int:
 			case int64:
 			case float64:
+			case float32:
 			case bool:
 			case string:
 				continue
 			default:
-				clsMap[reflect.TypeOf(service.Input.Class).Name()] = true
+				clsMap[reflect.TypeOf(service.Output.Class).Name()] = true
 			}
 		}
 	}

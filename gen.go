@@ -1,10 +1,8 @@
 package rpc_gen
 
 import (
-	"bytes"
 	"fmt"
 	"os"
-	"text/template"
 )
 
 type GenConfig struct {
@@ -45,7 +43,7 @@ func createTsServiceClient(genConfig GenConfig) error {
 	if err != nil {
 		return err
 	}
-	cacheString := "\nconst cache = new Map<string, any>();"
+	cacheString := "\nconst cache = new Map<string, any>();\n"
 	bodyString, err := genBody(genConfig)
 	if err != nil {
 		return err
@@ -61,21 +59,4 @@ func createTsServiceClient(genConfig GenConfig) error {
 	f.WriteString(cacheString)
 	f.WriteString(bodyString)
 	return nil
-}
-
-func genBody(genConfig GenConfig) (string, error) {
-	it := template.New("bodyTemplate")
-	it, err := it.Parse(functionTemplate)
-	if err != nil {
-		return "", err
-	}
-	buf := bytes.NewBufferString("")
-	for _, service := range genConfig.Services {
-		service.Path = genConfig.BasePath + service.Path
-		err = it.Execute(buf, service)
-		if err != nil {
-			return "", err
-		}
-	}
-	return buf.String(), nil
 }
