@@ -39,7 +39,15 @@ func createTsServiceClient(genConfig GenConfig) error {
 	if err != nil {
 		return err
 	}
-	importString, err := genImport(genConfig)
+	needCaching := false
+	for _, service := range genConfig.Services {
+		if service.Cache {
+			needCaching = true
+			break
+		}
+	}
+
+	importString, err := genImport(genConfig, needCaching)
 	if err != nil {
 		return err
 	}
@@ -56,7 +64,9 @@ func createTsServiceClient(genConfig GenConfig) error {
 	f.WriteString("/* Do not change, this code is generated from Golang structs */\n\n")
 	f.WriteString("/* eslint-disable import/prefer-default-export, max-len */\n")
 	f.WriteString(importString)
-	f.WriteString(cacheString)
+	if needCaching {
+		f.WriteString(cacheString)
+	}
 	f.WriteString(bodyString)
 	return nil
 }

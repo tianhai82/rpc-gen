@@ -6,7 +6,7 @@ import (
 	"text/template"
 )
 
-func genImport(genConfig GenConfig) (string, error) {
+func genImport(genConfig GenConfig, needCaching bool) (string, error) {
 	clsMap := map[string]bool{}
 	for _, service := range genConfig.Services {
 		if service.Input != nil {
@@ -51,7 +51,8 @@ func genImport(genConfig GenConfig) (string, error) {
 	}
 	buf := bytes.NewBufferString("")
 	err = it.Execute(buf, map[string]interface{}{
-		"Classes": classes,
+		"NeedCaching": needCaching,
+		"Classes":     classes,
 	})
 	if err != nil {
 		return "", err

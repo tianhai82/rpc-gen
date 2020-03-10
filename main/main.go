@@ -18,7 +18,11 @@ var config = gen.GenConfig{
 			Cache:        true,
 			Path:         "/cash",
 			FunctionName: "cash",
-			Input:        nil,
+			Input: &gen.Param{
+				Class:     5.5,
+				ClassName: "",
+				IsArray:   true,
+			},
 			Output: &gen.Param{
 				Class:     Huat{},
 				ClassName: "",

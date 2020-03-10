@@ -1,14 +1,14 @@
 package rpc_gen
 
-const importTemplate = `import objectHash from 'object-hash';
+const importTemplate = `{{- if .NeedCaching -}}import objectHash from 'object-hash';{{- end -}}{{if .Classes}}
 import {
 {{range .Classes}}  {{.}},
-{{end}}} from './models';
+{{end -}}} from './models';{{- end}}
 `
 
 const functionTemplate = `
 export function {{.FunctionName}}({{if .Input}}data: {{.Input.ClassName}}{{if .Input.IsArray}}[]{{- end}}{{end}}){{if .Output}}: Promise<{{.Output.ClassName}}{{if .Output.IsArray}}[]{{- end}}> {{- end}} { 
-{{- if .Cache -}}
+{{- if .Cache -}}{{- if .Output -}}
 {{- if .Input}}
   let hash: string | undefined;
   hash = objectHash(data); {{- end}}
@@ -19,7 +19,7 @@ export function {{.FunctionName}}({{if .Input}}data: {{.Input.ClassName}}{{if .I
   if (value) {
     return Promise.resolve(value);
   }
-{{- end}}
+{{- end}}{{- end}}
   return fetch('{{.Path}}', {
     method: 'POST',
     mode: 'same-origin',
@@ -27,8 +27,8 @@ export function {{.FunctionName}}({{if .Input}}data: {{.Input.ClassName}}{{if .I
     headers: {
       'Content-Type': 'application/json',
     },
-    redirect: 'follow',
-    body: JSON.stringify(data),
+    redirect: 'follow',{{if .Input}}
+    body: JSON.stringify(data),{{- end}}
   })
     .then((response) => {
       if (response.ok) {
