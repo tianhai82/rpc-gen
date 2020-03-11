@@ -9,7 +9,7 @@ import (
 )
 
 func genModel(config *GenConfig) error {
-	clsMap := map[interface{}]bool{}
+	clsMap := map[reflect.Type]bool{}
 	for i, service := range config.Services {
 		if service.Input != nil {
 			cls := service.Input.Class
@@ -25,7 +25,7 @@ func genModel(config *GenConfig) error {
 			case string:
 				config.Services[i].Input.ClassName = "string"
 			default:
-				clsMap[service.Input.Class] = true
+				clsMap[reflect.TypeOf(service.Input.Class)] = true
 				config.Services[i].Input.ClassName = reflect.TypeOf(service.Input.Class).Name()
 			}
 		}
@@ -45,7 +45,7 @@ func genModel(config *GenConfig) error {
 			case string:
 				config.Services[i].Output.ClassName = "string"
 			default:
-				clsMap[service.Output.Class] = true
+				clsMap[reflect.TypeOf(service.Output.Class)] = true
 				config.Services[i].Output.ClassName = reflect.TypeOf(service.Output.Class).Name()
 			}
 		}
@@ -54,7 +54,7 @@ func genModel(config *GenConfig) error {
 	scriptify := typescriptify.New()
 	scriptify.BackupDir = ""
 	for key := range clsMap {
-		scriptify.Add(key)
+		scriptify.AddType(key)
 	}
 	err := os.MkdirAll(config.Folder, 0700)
 	if err != nil {

@@ -29,7 +29,7 @@ func CreateTsServiceClients(configs []GenConfig) {
 	for _, genConfig := range configs {
 		err := createTsServiceClient(genConfig)
 		if err != nil {
-			fmt.Printf("Error creating ts client for %s: %s", genConfig.Folder, err.Error())
+			fmt.Printf("Error creating ts client for %s: %s\n", genConfig.Folder, err.Error())
 		}
 	}
 }
@@ -61,7 +61,7 @@ func createTsServiceClient(genConfig GenConfig) error {
 		return err
 	}
 	defer f.Close()
-	f.WriteString("/* Do not change, this code is generated from Golang structs */\n\n")
+	f.WriteString("/* Do not change, this code is generated from Golang rpc-gen */\n\n")
 	f.WriteString("/* eslint-disable import/prefer-default-export, max-len */\n")
 	f.WriteString(importString)
 	if needCaching {

@@ -8,6 +8,10 @@ import (
 type Huat struct {
 	Name   string  `json:"name"`
 	Amount float64 `json:"amount"`
+	Items  Huat2   `json:"items"`
+}
+type Huat2 struct {
+	King map[string]int `json:"king" ts_type:"{[key: string]: number}"`
 }
 
 var config = gen.GenConfig{
@@ -15,11 +19,11 @@ var config = gen.GenConfig{
 	BasePath: "/web/src/apis/amount",
 	Services: []gen.Service{
 		gen.Service{
-			Cache:        true,
+			Cache:        false,
 			Path:         "/cash",
 			FunctionName: "cash",
 			Input: &gen.Param{
-				Class:     5.5,
+				Class:     Huat{},
 				ClassName: "",
 				IsArray:   true,
 			},
