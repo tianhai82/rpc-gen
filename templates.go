@@ -1,6 +1,6 @@
 package rpc_gen
 
-const importTemplate = `{{- if .NeedCaching -}}import objectHash from 'object-hash';{{- end -}}{{if .Classes}}
+const importTemplate = `{{- if .NeedCaching -}}const objectHash = require('object-hash');{{- end -}}{{if .Classes}}
 import {
 {{range .Classes}}  {{.}},
 {{end -}}} from './models';{{- end}}
