@@ -30,13 +30,17 @@ export function {{.FunctionName}}({{if .Input}}data: {{.Input.ClassName}}{{if .I
     redirect: 'follow',{{if .Input}}
     body: JSON.stringify(data),{{- end}}
   })
-    .then((response) => {
+    .then(async (response) => {
       if (response.ok) {
         return response;
       }
       if (response.status === 401) {
         const src = window.location.pathname + window.location.search + window.location.hash;
         window.location.href = ` + "`/sign/in?source=${src}`" + `;
+      }
+      const errMsg = await response.json();
+      if (errMsg) {
+        throw new Error(errMsg);  
       }
       throw new Error(` + "`${response.statusText} : ${response.status}`" + `);
     })
