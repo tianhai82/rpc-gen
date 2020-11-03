@@ -12,11 +12,12 @@ type GenConfig struct {
 }
 
 type Service struct {
-	Cache        bool
-	Path         string
-	FunctionName string
-	Input        *Param
-	Output       *Param
+	Cache          bool
+	SignInRedirect bool
+	Path           string
+	FunctionName   string
+	Input          *Param
+	Output         *Param
 }
 
 type Param struct {

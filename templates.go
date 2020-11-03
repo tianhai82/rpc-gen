@@ -34,10 +34,10 @@ export function {{.FunctionName}}({{if .Input}}data: {{.Input.ClassName}}{{if .I
       if (response.ok) {
         return response;
       }
-      if (response.status === 401) {
+      {{if .SignInRedirect}}if (response.status === 401) {
         const src = window.location.pathname + window.location.search + window.location.hash;
         window.location.href = ` + "`/sign/in?source=${src}`" + `;
-      }
+      }{{end}}
       const errMsg = await response.json();
       if (errMsg) {
         throw new Error(errMsg);  

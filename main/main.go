@@ -19,9 +19,10 @@ var config = gen.GenConfig{
 	BasePath: "/web/src/apis/amount",
 	Services: []gen.Service{
 		gen.Service{
-			Cache:        false,
-			Path:         "/cash",
-			FunctionName: "cash",
+			Cache:          false,
+			SignInRedirect: false,
+			Path:           "/cash",
+			FunctionName:   "cash",
 			Input: &gen.Param{
 				Class:     Huat{},
 				ClassName: "",
@@ -40,9 +41,10 @@ var config2 = gen.GenConfig{
 	BasePath: "/web/src/apis/age",
 	Services: []gen.Service{
 		gen.Service{
-			Cache:        true,
-			Path:         "/year",
-			FunctionName: "year",
+			Cache:          true,
+			SignInRedirect: true,
+			Path:           "/year",
+			FunctionName:   "year",
 			Input: &gen.Param{
 				Class:     Huat{},
 				ClassName: "",
