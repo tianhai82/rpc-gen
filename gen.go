@@ -64,6 +64,7 @@ func createTsServiceClient(genConfig GenConfig) error {
 	defer f.Close()
 	f.WriteString("/* Do not change, this code is generated from Golang rpc-gen */\n\n")
 	f.WriteString("/* eslint-disable */\n")
+	f.WriteString("// @ts-nocheck\n")
 	f.WriteString(importString)
 	if needCaching {
 		f.WriteString(cacheString)
